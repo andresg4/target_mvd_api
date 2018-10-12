@@ -42,6 +42,7 @@ group :test do
   gem 'faker', '~> 1.9', '>= 1.9.1'
   gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'rails-controller-testing'
+  gem 'database_cleaner', '~> 1.7'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

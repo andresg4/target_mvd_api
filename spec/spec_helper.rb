@@ -31,17 +31,14 @@ RSpec.configure do |config|
   # file, and it's useful to allow more verbose output when running an
   # individual spec file.
   # if config.files_to_run.one?
-  config.before :suite do
-    DatabaseCleaner.cleaning { FactoryBot.lint } unless config.files_to_run.one?
-  end
-
-  config.before :each do
+  config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.start
-    ActionMailer::Base.deliveries.clear
+    DatabaseCleaner.clean_with(:truncation) unless config.files_to_run.one?
   end
 
-  config.after do
-    DatabaseCleaner.clean
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
   end
 end
