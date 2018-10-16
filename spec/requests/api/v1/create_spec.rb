@@ -2,13 +2,17 @@ require 'rails_helper'
 require 'json'
 
 describe 'POST api/v1/users/', type: :request do
-  let(:params) { FactoryBot.attributes_for(:random_user) }
-
-  let(:blank_params) { {} }
-
-  let(:wrong_email_params) { FactoryBot.attributes_for(:user_invalid_email) }
-  let(:short_pass_params) { FactoryBot.attributes_for(:user_short_password) }
-  let(:wrong_pass_params) { FactoryBot.attributes_for(:user_wrong_password) }
+  let(:params)             { FactoryBot.attributes_for(:user) }
+  let(:blank_params)       { {} }
+  let(:wrong_email_params) do
+    FactoryBot.attributes_for(:user, email: 'johnexample.com')
+  end
+  let(:short_pass_params) do
+    FactoryBot.attributes_for(:user, password: '123', password_confirmation: '123')
+  end
+  let(:wrong_pass_params) do
+    FactoryBot.attributes_for(:user, password_confirmation: 'passwordconfirmation')
+  end
 
   context 'signs up successfully' do
     it 'returns status 200 OK' do
@@ -87,9 +91,9 @@ describe 'POST api/v1/users/', type: :request do
 
       it 'returns short pass error' do
         post user_registration_path, params: short_pass_params, as: :json
-        j = json['errors']['password'][0]
-        expect(j).to eq(I18n.t('activerecord.errors.models.user.attributes.password.too_short',
-                               count: Devise.password_length.min))
+        expect(json['errors']['password'][0])
+          .to eq(I18n.t('activerecord.errors.models.user.attributes.password.too_short',
+                        count: Devise.password_length.min))
       end
     end
 
@@ -101,8 +105,8 @@ describe 'POST api/v1/users/', type: :request do
 
       it 'returns short pass error' do
         post user_registration_path, params: wrong_pass_params, as: :json
-        j = json['errors']['password_confirmation'][0]
-        expect(j).to eq(I18n.t('activerecord.errors.messages.confirmation'))
+        expect(json['errors']['password_confirmation'][0])
+          .to eq(I18n.t('activerecord.errors.messages.confirmation'))
       end
     end
   end

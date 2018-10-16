@@ -7,16 +7,10 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  enum gender: %i[male female]
+  enum gender: { male: 0, female: 1 }
 
   validates :name, :gender, presence: true
   validates :name, length: { maximum: 30 }
-  validates :gender, inclusion: { in: genders.keys }, if: :gender_present?
+  validates :gender, inclusion: { in: genders.keys }, if: proc { |user| user.gender.present? }
   validates :uid, uniqueness: { scope: :provider }
-
-  private
-
-  def gender_present?
-    gender.present?
-  end
 end
