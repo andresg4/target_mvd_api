@@ -23,10 +23,18 @@ ProtectMassAssignmentCheck: { }
 RemoveEmptyHelpersCheck: { }
 #RemoveTabCheck: { }
 RemoveTrailingWhitespaceCheck: { }
-RemoveUnusedMethodsInControllersCheck: { except_methods: ['RegistrationsController#render_create_success',
-                                                          'RegistrationsController#render_create_error',
-                                                          'RegistrationsController#render_error',
-                                                          'RegistrationsController#sign_up_params'] }
+RemoveUnusedMethodsInControllersCheck: {
+  except_methods: [
+    'RegistrationsController#render_create_success',
+    'RegistrationsController#render_create_error',
+    'RegistrationsController#render_error',
+    'RegistrationsController#sign_up_params',
+    'SessionsController#render_create_success',
+    'SessionsController#render_create_error_not_confirmed',
+    'SessionsController#render_create_error_account_locked',
+    'SessionsController#render_create_error_bad_credentials'
+  ] 
+}
 RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
 RemoveUnusedMethodsInModelsCheck: { except_methods: [] }
 ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
