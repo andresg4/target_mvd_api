@@ -11,7 +11,7 @@ describe 'POST api/v1/users/sign_in', type: :request do
   context 'signs in successfully', confirm_email: true do
     it 'returns status 200 OK' do
       post user_session_path, params: params_login, as: :json
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'gives an access token' do
@@ -25,7 +25,7 @@ describe 'POST api/v1/users/sign_in', type: :request do
       it 'returns status 401 Unauthorized' do
         params[:password] = '123'
         post user_session_path, params: params_login, as: :json
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'returns errors' do
@@ -39,7 +39,7 @@ describe 'POST api/v1/users/sign_in', type: :request do
       it 'returns status 401 Unauthorized' do
         params[:email] = 'asd@asd.com'
         post user_session_path, params: params_login, as: :json
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'returns errors' do
@@ -53,7 +53,7 @@ describe 'POST api/v1/users/sign_in', type: :request do
       it 'returns status 401 Unauthorized' do
         post user_registration_path, params: params, as: :json
         post user_session_path, params: params_login, as: :json
-        expect(response.status).to eq(401)
+        expect(response).to have_http_status(:unauthorized)
       end
 
       it 'returns errors' do
