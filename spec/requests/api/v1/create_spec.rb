@@ -17,7 +17,7 @@ describe 'POST api/v1/users/', type: :request do
   context 'signs up successfully' do
     it 'returns status 200 OK' do
       post user_registration_path, params: params, as: :json
-      expect(response.status).to eq(200)
+      expect(response).to have_http_status(:ok)
     end
 
     it 'creates the user' do
@@ -48,7 +48,7 @@ describe 'POST api/v1/users/', type: :request do
     context 'blank parameters' do
       it 'returns 422 unprocessable entity' do
         post user_registration_path, params: blank_params, as: :json
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns errors' do
@@ -61,7 +61,7 @@ describe 'POST api/v1/users/', type: :request do
       it 'returns 422 unprocessable entity' do
         post user_registration_path, params: params, as: :json
         post user_registration_path, params: params, as: :json
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns existing email error' do
@@ -74,7 +74,7 @@ describe 'POST api/v1/users/', type: :request do
     context 'invalid email' do
       it 'returns 422 unprocessable entity' do
         post user_registration_path, params: wrong_email_params, as: :json
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns invalid mail error' do
@@ -86,7 +86,7 @@ describe 'POST api/v1/users/', type: :request do
     context 'short password' do
       it 'returns 422 unprocessable entity' do
         post user_registration_path, params: short_pass_params, as: :json
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns short pass error' do
@@ -100,7 +100,7 @@ describe 'POST api/v1/users/', type: :request do
     context 'password confirmation does not match' do
       it 'returns 422 unprocessable entity' do
         post user_registration_path, params: wrong_pass_params, as: :json
-        expect(response.status).to eq(422)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns short pass error' do
