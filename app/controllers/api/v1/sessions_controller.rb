@@ -48,7 +48,7 @@ module Api
       end
 
       def render_error_email
-        render_error(:unauthorized, 'Missing permissions to obtain email from facebook')
+        render_error(:unauthorized, I18n.t('api.facebook.missing_permissions_to_get_email'))
       end
 
       def render_error_not_authorized
