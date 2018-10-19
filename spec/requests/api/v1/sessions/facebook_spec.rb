@@ -87,7 +87,7 @@ describe 'POST api/v1/users/facebook', type: :request do
 
       it 'returns error' do
         subject
-        expect(json['error']).to eq(I18n.t('api.facebook.not_authorized'))
+        expect(json['errors'][0]).to eq(I18n.t('api.facebook.not_authorized'))
       end
     end
   end

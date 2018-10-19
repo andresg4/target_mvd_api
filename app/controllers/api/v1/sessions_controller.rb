@@ -48,17 +48,15 @@ module Api
       end
 
       def render_error_email
-        render json: {
-          errors: ['Missing permissions to obtain email from facebook']
-        }, status: :unauthorized
+        render_error(:unauthorized, 'Missing permissions to obtain email from facebook')
       end
 
       def render_error_not_authorized
-        render json: { error: I18n.t('api.facebook.not_authorized') }, status: :forbidden
+        render_error(:forbidden, I18n.t('api.facebook.not_authorized'))
       end
 
       def render_error_already_registered
-        render json: { error: I18n.t('api.facebook.already_registered') }, status: :bad_request
+        render_error(:bad_request, I18n.t('api.facebook.already_registered'))
       end
     end
   end
