@@ -13,7 +13,68 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
+
 RSpec.configure do |config|
+  config.before(:each) do
+    stub_request(:get, 'https://graph.facebook.com/me?access_token=12345' \
+      "&appsecret_proof=#{OpenSSL::HMAC.hexdigest('SHA256', ENV['APP_SECRET_KEY_FB'], '12345')}" \
+      '&fields=name,email,gender')
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Faraday v0.15.3'
+        }
+      ).to_return(
+        status: 200,
+        body: {
+          'id': '111345443186894',
+          'name': 'John Doe',
+          'gender': 'male',
+          'email': 'johnexample@example.com'
+        }.to_json
+      )
+  end
+
+  config.before(:each) do
+    stub_request(:get, 'https://graph.facebook.com/me?access_token=1234' \
+      "&appsecret_proof=#{OpenSSL::HMAC.hexdigest('SHA256', ENV['APP_SECRET_KEY_FB'], '1234')}" \
+      '&fields=name,email,gender')
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Faraday v0.15.3'
+        }
+      ).to_return(
+        status: 200,
+        body: {
+          'id': '111345443186894',
+          'name': 'John Doe',
+          'gender': 'male'
+        }.to_json
+      )
+  end
+
+  config.before(:each) do
+    stub_request(:get, 'https://graph.facebook.com/me?access_token=123' \
+      "&appsecret_proof=#{OpenSSL::HMAC.hexdigest('SHA256', ENV['APP_SECRET_KEY_FB'], '123')}" \
+      '&fields=name,email,gender')
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Faraday v0.15.3'
+        }
+      ).to_return(
+        status: 403,
+        body: {
+          'error': 'Not Authorized'
+        }.to_json
+      )
+  end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
