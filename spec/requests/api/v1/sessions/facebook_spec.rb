@@ -67,7 +67,7 @@ describe 'POST api/v1/users/facebook', type: :request do
 
       it 'returns error' do
         subject
-        expect(json['errors'][0]).to eq('Missing permissions to obtain email from facebook')
+        expect(json['errors'][0]).to eq(I18n.t('api.facebook.missing_permissions_to_get_email'))
       end
     end
 

@@ -19,8 +19,7 @@ class User < ActiveRecord::Base
       user.name = params[:name]
       user.email = params[:email]
       user.password = Devise.friendly_token[8, 20]
-      gender = params[:gender]
-      user.gender = gender.present? ? gender : 0
+      user.gender = params[:gender] || 0
     end
   end
 end
