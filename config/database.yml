@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: target_mvd_api_production
-  username: target_mvd_api
-  password: <%= ENV['TARGET_MVD_API_DATABASE_PASSWORD'] %>
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USERNAME'] %>
+  password: <%= ENV['DATABASE_PASSWORD'] %>

@@ -13,4 +13,13 @@ class User < ActiveRecord::Base
   validates :name, length: { maximum: 30 }
   validates :gender, inclusion: { in: genders.keys }, if: proc { |user| user.gender.present? }
   validates :uid, uniqueness: { scope: :provider }
+
+  def self.from_social_provider(provider, params)
+    User.where(provider: provider, uid: params[:id]).first_or_create do |user|
+      user.name = params[:name]
+      user.email = params[:email]
+      user.password = Devise.friendly_token[8, 20]
+      user.gender = params[:gender] || 0
+    end
+  end
 end
