@@ -36,9 +36,7 @@ RSpec.configure do |config|
           'email': 'johnexample@example.com'
         }.to_json
       )
-  end
 
-  config.before(:each) do
     stub_request(:get, 'https://graph.facebook.com/me?access_token=1234' \
       "&appsecret_proof=#{OpenSSL::HMAC.hexdigest('SHA256', ENV['APP_SECRET_KEY_FB'], '1234')}" \
       '&fields=name,email,gender')
@@ -56,9 +54,7 @@ RSpec.configure do |config|
           'gender': 'male'
         }.to_json
       )
-  end
 
-  config.before(:each) do
     stub_request(:get, 'https://graph.facebook.com/me?access_token=123' \
       "&appsecret_proof=#{OpenSSL::HMAC.hexdigest('SHA256', ENV['APP_SECRET_KEY_FB'], '123')}" \
       '&fields=name,email,gender')
@@ -75,6 +71,7 @@ RSpec.configure do |config|
         }.to_json
       )
   end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
