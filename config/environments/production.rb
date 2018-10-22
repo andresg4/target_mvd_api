@@ -55,6 +55,9 @@ Rails.application.configure do
   # config.active_job.queue_name_prefix = "target_mvd_api_#{Rails.env}"
 
   config.action_mailer.perform_caching = false
+
+
+  config.action_mailer.default_url_options = { host: ENV['SERVER_URL'] }
   # Setup the mailer config
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
