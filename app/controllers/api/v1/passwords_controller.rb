@@ -23,12 +23,8 @@ module Api
       private
 
       def resource_config_and_save
-        # ensure that user is confirmed
         @resource.skip_confirmation! if confirmable_enabled? && !@resource.confirmed_at
-
-        # allow user to change password once without current_password
         @resource.allow_password_change = true if recoverable_enabled?
-
         @resource.save!
       end
 

@@ -15,6 +15,7 @@ describe 'GET api/v1/users/password/edit', type: :request do
       params_edit_password[:redirect_url] = Faker::Internet.url
       get edit_user_password_path, params: params_edit_password
     end
+
     it 'returns status 200 OK' do
       expect(response).to have_http_status(:ok)
     end
@@ -36,6 +37,7 @@ describe 'GET api/v1/users/password/edit', type: :request do
       params_edit_password[:redirect_url] = Faker::Internet.url
       get edit_user_password_path, params: params_edit_password
     end
+
     it 'returns status 404 not found' do
       expect(response).to have_http_status(:not_found)
     end

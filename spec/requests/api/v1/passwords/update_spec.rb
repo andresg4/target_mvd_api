@@ -20,6 +20,7 @@ describe 'PUT api/v1/users/password', type: :request do
         User.find_by_email(params[:email])
       ), as: :json
     end
+
     it 'returns status 200 OK' do
       expect(response).to have_http_status(:ok)
     end
@@ -35,6 +36,7 @@ describe 'PUT api/v1/users/password', type: :request do
     before do
       put user_password_path, params: params_update_password, headers: headers_update, as: :json
     end
+
     it 'returns status 401 not authorized' do
       expect(response).to have_http_status(:unauthorized)
     end

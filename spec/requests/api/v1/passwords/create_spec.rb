@@ -10,6 +10,7 @@ describe 'POST api/v1/users/password', type: :request do
     before do
       post user_password_path, params: params_reset_password, as: :json
     end
+
     it 'returns status 200 OK' do
       expect(response).to have_http_status(:ok)
     end
@@ -35,6 +36,7 @@ describe 'POST api/v1/users/password', type: :request do
         params_reset_password[:email] = 'exa@exa.com'
         post user_password_path, params: params_reset_password, as: :json
       end
+
       it 'returns status 404 not found' do
         expect(response).to have_http_status(:not_found)
       end
@@ -50,6 +52,7 @@ describe 'POST api/v1/users/password', type: :request do
         params_reset_password = { redirect_url: 'url' }
         post user_password_path, params: params_reset_password, as: :json
       end
+
       it 'returns status 401 unauthorized' do
         expect(response).to have_http_status(:unauthorized)
       end
@@ -64,6 +67,7 @@ describe 'POST api/v1/users/password', type: :request do
         params_reset_password = { email: params[:email] }
         post user_password_path, params: params_reset_password, as: :json
       end
+
       it 'returns status 401 unauthorized' do
         expect(response).to have_http_status(:unauthorized)
       end
