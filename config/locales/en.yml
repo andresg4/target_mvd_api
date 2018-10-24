@@ -53,6 +53,7 @@ en:
         confirm_link_msg: "You can confirm your account email through the link below:"
       reset_password_instructions:
         subject: "Reset password instructions"
+        request_reset_link_msg: "Someone has requested a link to change your password. You can do this through the link below."
       unlock_instructions:
         subject: "Unlock instructions"
       email_changed:
@@ -64,6 +65,7 @@ en:
       success: "Successfully authenticated from %{kind} account."
     passwords:
       no_token: "You can't access this page without coming from a password reset email. If you do come from a password reset email, please make sure you used the full URL provided."
+      sended: "An email has been sent to '%{email}' containing instructions for resetting your password."
       send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
       send_paranoid_instructions: "If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes."
       updated: "Your password has been changed successfully. You are now signed in."
@@ -111,6 +113,11 @@ en:
     sessions:
       not_confirmed: "A confirmation email was sent to your account at '%{email}'. You must follow the instructions in the email before your account can be activated"
       bad_credentials: "Invalid login credentials. Please try again."
+    passwords:
+      user_not_found: "Unable to find user with email '%{email}'."
+      missing_email: "You must provide an email address."
+      missing_redirect_url: "Missing redirect URL."
+      successfully_updated: "Your password has been successfully updated."
   api:
     facebook:
       not_authorized: 'Not Authorized'
