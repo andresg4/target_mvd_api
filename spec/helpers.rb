@@ -8,4 +8,8 @@ module Helpers
     new_user = User.find_by_email(params[:email])
     new_user.confirm
   end
+
+  def update_password_headers(user)
+    user.create_new_auth_token
+  end
 end
