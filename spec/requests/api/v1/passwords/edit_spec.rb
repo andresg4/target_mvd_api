@@ -43,7 +43,7 @@ describe 'GET api/v1/users/password/edit', type: :request do
     end
 
     it 'returns error message' do
-      expect(json['errors'][0]).to eq('Not Found')
+      expect(json['errors'][0]).to eq(I18n.t('errors.messages.not_found_password'))
     end
   end
 end

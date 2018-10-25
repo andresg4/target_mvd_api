@@ -84,11 +84,11 @@ module Api
       end
 
       def render_edit_error
-        render_error(404, 'Not Found')
+        render_error(404, I18n.t('errors.messages.not_found_password'))
       end
 
       def render_update_error_unauthorized
-        render_error(401, 'Unauthorized')
+        render_error(401, I18n.t('errors.messages.unauthorized_password'))
       end
 
       def render_update_error_password_not_required

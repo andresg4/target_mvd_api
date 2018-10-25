@@ -42,7 +42,7 @@ describe 'PUT api/v1/users/password', type: :request do
     end
 
     it 'returns error message' do
-      expect(json['errors'][0]).to eq('Unauthorized')
+      expect(json['errors'][0]).to eq(I18n.t('errors.messages.unauthorized_password'))
     end
   end
 end
