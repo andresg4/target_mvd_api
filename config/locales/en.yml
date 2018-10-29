@@ -111,6 +111,7 @@ en:
         taken: "has already been taken"
         blank: "can't be blank"
         confirmation: "doesn't match Password"
+        required: "must exist"
   devise_token_auth:
     sessions:
       not_confirmed: "A confirmation email was sent to your account at '%{email}'. You must follow the instructions in the email before your account can be activated"
