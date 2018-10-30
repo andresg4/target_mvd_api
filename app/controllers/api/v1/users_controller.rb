@@ -4,8 +4,7 @@ module Api
       before_action :authenticate_user!, only: [:targets]
 
       def targets
-        user = current_user
-        @targets = user.targets
+        @targets = current_user.targets
       end
     end
   end
