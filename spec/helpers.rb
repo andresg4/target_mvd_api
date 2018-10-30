@@ -9,7 +9,7 @@ module Helpers
     new_user.confirm
   end
 
-  def update_password_headers(user)
+  def headers_aux(user)
     user.create_new_auth_token
   end
 end

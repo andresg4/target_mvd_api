@@ -16,7 +16,7 @@ describe 'PUT api/v1/users/password', type: :request do
 
   context 'valid request' do
     before do
-      put user_password_path, params: params_update_password, headers: update_password_headers(
+      put user_password_path, params: params_update_password, headers: headers_aux(
         User.find_by_email(params[:email])
       ), as: :json
     end

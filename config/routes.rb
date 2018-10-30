@@ -5,12 +5,16 @@ Rails.application.routes.draw do
     sessions: 'api/v1/sessions',
     passwords: 'api/v1/passwords'
   }
-  devise_scope :user do
-    post 'api/v1/users/sign_in/facebook', to: 'api/v1/sessions#facebook'
-  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   namespace :api do
     namespace :v1 do
+      devise_scope :user do
+        post 'users/sign_in/facebook', to: 'sessions#facebook'
+      end
+      resources :topics, only: [:index]
+      resources :targets, only: %i[index show create]
+      get 'users/me/targets', to: 'users#targets', as: 'user_targets'
     end
   end
 end
