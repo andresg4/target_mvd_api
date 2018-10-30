@@ -5,16 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Topic.create(
-  [
-    { name: 'Football'},
-    { name: 'Travel' },
-    { name: 'Politics' },
-    { name: 'Art' },
-    { name: 'Dating' },
-    { name: 'Music' },
-    { name: 'Movies' },
-    { name: 'Series' },
-    { name: 'Food' }
-  ]
-)
+topics_list = %w[Football Travel Politics Art Dating Music Movies Series Food]
+
+topics_list.each do |name|
+  Topic.create(name: name)
+end

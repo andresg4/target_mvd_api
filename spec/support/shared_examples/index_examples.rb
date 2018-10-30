@@ -14,9 +14,7 @@ RSpec.shared_examples 'index examples' do |class_name, resource_name, path_name|
     end
 
     it 'returns resources' do
-      expect(json).not_to be_empty
-      expect(json[class_name.to_s].size).to eq(list.size)
-      expect(json[class_name.to_s].map { |r| r['id'] })
+      expect(json[class_name.to_s].map { |resources| resources['id'] })
         .to match_array(list.pluck(:id))
     end
   end

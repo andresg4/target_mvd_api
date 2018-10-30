@@ -1,7 +1,6 @@
 module Api
   module V1
     class RegistrationsController < DeviseTokenAuth::RegistrationsController
-      skip_before_action :authenticate_user!, raise: false
       def render_create_success
         render 'create_success', status: :ok
       end

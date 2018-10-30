@@ -1,4 +1,4 @@
-json.topics @topics do |t|
-  json.id   t.id
-  json.name t.name
+json.topics @topics do |topic|
+  json.id   topic.id
+  json.name topic.name
 end

@@ -5,8 +5,6 @@ module Api
       rescue_from ActiveRecord::RecordNotUnique, with: :render_error_already_registered
       rescue_from Koala::Facebook::ClientError, with: :render_error_not_authorized
 
-      skip_before_action :authenticate_user!, raise: false
-
       def facebook
         user_params = FacebookService.new(params[:access_token]).profile
         return render_error_email unless user_params[:email].present?

@@ -1,9 +1,9 @@
-json.targets @targets do |t|
-  json.id         t.id
-  json.title      t.title
-  json.radius     t.radius
-  json.latitude   t.latitude
-  json.longitude  t.longitude
-  json.topic      t.topic
-  json.user       { json.partial! 'api/v1/users/show', user: t.user }
+json.targets @targets do |target|
+  json.id         target.id
+  json.title      target.title
+  json.radius     target.radius
+  json.latitude   target.latitude
+  json.longitude  target.longitude
+  json.topic      target.topic
+  json.user       { json.partial! 'api/v1/users/show', user: target.user }
 end
