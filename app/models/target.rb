@@ -8,4 +8,6 @@ class Target < ApplicationRecord
   validates :title, :radius, :latitude, :longitude, presence: true
   validates :title, length: { maximum: 20 }
   validates :title, uniqueness: true
+
+  validates :radius, numericality: { greater_than_or_equal_to: 0 }
 end
