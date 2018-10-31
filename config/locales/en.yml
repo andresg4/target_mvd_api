@@ -126,3 +126,5 @@ en:
       not_authorized: 'Not Authorized'
       already_registerd: 'User already registered with email/password'
       missing_permissions_to_get_email: 'Missing permissions to obtain email from facebook'
+    errors:
+      not_found: 'Record not found'

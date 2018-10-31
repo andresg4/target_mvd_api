@@ -2,7 +2,7 @@ module Api
   module V1
     class TargetsController < ApplicationController
       before_action :authenticate_user!
-      before_action :set_target, only: [:show]
+      helper_method :target
 
       def index
         @targets = Target.all
@@ -11,31 +11,19 @@ module Api
       def show; end
 
       def create
-        new_target
-        @target.save ? render_create_success : render_create_error
+        @target = current_user.targets.create!(target_params)
+        render :show
       end
 
       private
 
-      def set_target
-        @target = Target.find(target_params[:title])
+      def target
+        @target ||= current_user.targets.find(params[:id])
       end
 
       def target_params
-        params.require(:target).permit(:id, :user_id, :topic_id, :title, :radius,
+        params.require(:target).permit(:topic_id, :title, :radius,
                                        :latitude, :longitude)
-      end
-
-      def new_target
-        @target = Target.new(target_params.except(:id))
-      end
-
-      def render_create_success
-        render 'show', status: :ok
-      end
-
-      def render_create_error
-        render json: { errors: @target.errors }, status: :bad_request
       end
     end
   end

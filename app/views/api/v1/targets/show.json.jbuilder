@@ -1,1 +1,1 @@
-json.partial! 'api/v1/targets/target', target: @target
+json.partial! 'api/v1/targets/target', target: target

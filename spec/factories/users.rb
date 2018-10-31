@@ -10,6 +10,7 @@ FactoryBot.define do
       transient do
         targets_count { 10 }
       end
+
       after(:create) do |user, evaluator|
         create_list(:target, evaluator.targets_count, user: user)
       end

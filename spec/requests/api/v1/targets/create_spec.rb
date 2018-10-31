@@ -26,7 +26,6 @@ describe 'POST api/v1/targets', type: :request do
       expect(new_target.latitude.to_f).to eq(params[:target][:latitude].round(6))
       expect(new_target.longitude.to_f).to eq(params[:target][:longitude].round(6))
       expect(new_target.topic_id).to eq(params[:target][:topic_id])
-      expect(new_target.user_id).to eq(params[:target][:user_id])
     end
 
     it 'returns target information' do
@@ -50,8 +49,8 @@ describe 'POST api/v1/targets', type: :request do
         post api_v1_targets_path, params: params, headers: headers_aux(user), as: :json
       end
 
-      it 'returns status 400 Bad Request' do
-        expect(response).to have_http_status(:bad_request)
+      it 'returns status 422 Unprocessable Entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns error message' do
@@ -66,8 +65,8 @@ describe 'POST api/v1/targets', type: :request do
         post api_v1_targets_path, params: params_error, headers: headers_aux(user), as: :json
       end
 
-      it 'returns status 400 Bad Request' do
-        expect(response).to have_http_status(:bad_request)
+      it 'returns status 422 Unprocessable Entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns error message' do
@@ -86,8 +85,8 @@ describe 'POST api/v1/targets', type: :request do
         post api_v1_targets_path, params: params_error, headers: headers_aux(user), as: :json
       end
 
-      it 'returns status 400 Bad Request' do
-        expect(response).to have_http_status(:bad_request)
+      it 'returns status 422 Unprocessable Entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns error message' do
@@ -95,7 +94,6 @@ describe 'POST api/v1/targets', type: :request do
         expect(json['errors']['radius'][0]).to eq(I18n.t('activerecord.errors.messages.blank'))
         expect(json['errors']['latitude'][0]).to eq(I18n.t('activerecord.errors.messages.blank'))
         expect(json['errors']['longitude'][0]).to eq(I18n.t('activerecord.errors.messages.blank'))
-        expect(json['errors']['user'][0]).to eq(I18n.t('activerecord.errors.messages.required'))
       end
     end
   end
