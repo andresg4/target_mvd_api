@@ -5,6 +5,16 @@ FactoryBot.define do
     gender                { Faker::Number.between(0, 1) }
     password              { 'password123' }
     password_confirmation { 'password123' }
+
+    factory :user_with_targets do
+      transient do
+        targets_count { 10 }
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:target, evaluator.targets_count, user: user)
+      end
+    end
   end
 
   factory :facebook_user, class: User do

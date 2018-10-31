@@ -27,7 +27,8 @@ RemoveUnusedMethodsInControllersCheck: {
   except_methods: [
     'RegistrationsController#*',
     'SessionsController#*',
-    'PasswordsController#*'
+    'PasswordsController#*',
+    'TargetsController#target'
   ]
 }
 RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
