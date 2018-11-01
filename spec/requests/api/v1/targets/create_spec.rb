@@ -97,6 +97,23 @@ describe 'POST api/v1/targets', type: :request do
       end
     end
   end
+
+  context 'user exceeds limit of targets' do
+    before do
+      user_with_targets = FactoryBot.create(:user_with_targets)
+      post api_v1_targets_path, params: params, headers: headers_aux(user_with_targets), as: :json
+    end
+
+    it 'returns status 422 Unprocessable Entity' do
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
+
+    it 'returns error message' do
+      expect(json['errors']['user'][0])
+        .to eq(I18n.t('activerecord.errors.models.target.attributes.user.exceeded_quota'))
+    end
+  end
+
   include_examples 'invalid headers post', '/api/v1/targets',
                    FactoryBot.attributes_for(:target_create)
 end

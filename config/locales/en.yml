@@ -106,6 +106,10 @@ en:
           attributes:
             password:
               too_short: "Password is too short (minimum is %{count} characters)"
+        target:
+          attributes:
+            user:
+              exceeded_quota: 'The limit of targets is 10 per user.'
       messages:
         invalid: "is invalid"
         taken: "has already been taken"

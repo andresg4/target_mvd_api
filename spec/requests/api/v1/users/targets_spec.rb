@@ -14,8 +14,6 @@ describe 'GET api/v1/users/me/targets', type: :request do
     end
 
     it 'returns user targets' do
-      expect(json).not_to be_empty
-      expect(json['targets'].size).to eq(user_with_targets.targets.size)
       expect(json['targets'].map { |target| target['id'] })
         .to match_array(user_with_targets.targets.pluck(:id))
     end

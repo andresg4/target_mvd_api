@@ -10,4 +10,19 @@ class Target < ApplicationRecord
   validates :title, uniqueness: true
 
   validates :radius, numericality: { greater_than_or_equal_to: 0 }
+
+  validate :validate_on_create, on: :create
+
+  private
+
+  LIMIT_TARGETS = 10
+
+  def validate_on_create
+    return unless user
+
+    return unless user.targets.count >= LIMIT_TARGETS
+
+    errors.clear
+    errors.add(:user, :exceeded_quota)
+  end
 end
