@@ -35,6 +35,11 @@ describe 'DELETE api/v1/targets/:id', type: :request do
         expect(response).to have_http_status(:not_found)
       end
 
+      it 'returns error message' do
+        subject
+        expect(json['errors']).to eq(I18n.t('api.errors.not_found'))
+      end
+
       it 'does not delete any target' do
         expect { subject }.to_not change { user_with_targets.targets.count }
       end
