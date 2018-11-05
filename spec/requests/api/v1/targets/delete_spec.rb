@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'DELETE api/v1/targets/:id', type: :request do
   let(:user) { create(:user_with_targets) }
 
-  before                  { user.confirm }
+  before     { user.confirm }
 
   context 'valid request' do
     subject do
