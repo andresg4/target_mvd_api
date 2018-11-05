@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe 'DELETE api/v1/targets/:id', type: :request do
-  let(:user_with_targets) { create(:user_with_targets) }
+  let(:user) { create(:user_with_targets) }
 
-  before                  { user_with_targets.confirm }
+  before                  { user.confirm }
 
   context 'valid request' do
     subject do
-      delete api_v1_target_path(id: user_with_targets.targets.last.id),
-             headers: headers_aux(user_with_targets),
+      delete api_v1_target_path(id: user.targets.last.id),
+             headers: headers_aux(user),
              as: :json
     end
 
@@ -18,7 +18,7 @@ describe 'DELETE api/v1/targets/:id', type: :request do
     end
 
     it 'deletes the target' do
-      expect { subject }.to change { user_with_targets.targets.count }.by(-1)
+      expect { subject }.to change { user.targets.count }.by(-1)
     end
   end
 
@@ -26,7 +26,7 @@ describe 'DELETE api/v1/targets/:id', type: :request do
     context 'target does not exists' do
       subject do
         delete api_v1_target_path(id: Target.last.id + 1),
-               headers: headers_aux(user_with_targets),
+               headers: headers_aux(user),
                as: :json
       end
 
@@ -41,15 +41,15 @@ describe 'DELETE api/v1/targets/:id', type: :request do
       end
 
       it 'does not delete any target' do
-        expect { subject }.to_not change { user_with_targets.targets.count }
+        expect { subject }.to_not change { user.targets.count }
       end
     end
 
     context 'invalid header' do
       context 'without access-token' do
         before do
-          delete api_v1_target_path(id: user_with_targets.targets.first.id),
-                 headers: headers_aux(user_with_targets).except('access-token'),
+          delete api_v1_target_path(id: user.targets.first.id),
+                 headers: headers_aux(user).except('access-token'),
                  as: :json
         end
 
@@ -64,8 +64,8 @@ describe 'DELETE api/v1/targets/:id', type: :request do
 
       context 'without client' do
         before do
-          delete api_v1_target_path(id: user_with_targets.targets.first.id),
-                 headers: headers_aux(user_with_targets).except('client'),
+          delete api_v1_target_path(id: user.targets.first.id),
+                 headers: headers_aux(user).except('client'),
                  as: :json
         end
 
@@ -80,8 +80,8 @@ describe 'DELETE api/v1/targets/:id', type: :request do
 
       context 'without uid' do
         before do
-          delete api_v1_target_path(id: user_with_targets.targets.first.id),
-                 headers: headers_aux(user_with_targets).except('uid'),
+          delete api_v1_target_path(id: user.targets.first.id),
+                 headers: headers_aux(user).except('uid'),
                  as: :json
         end
 
