@@ -13,5 +13,9 @@ module ExceptionHandler
     rescue_from ActionController::ParameterMissing do |error|
       render json: { errors: error.record.errors }, status: :unprocessable_entity
     end
+
+    rescue_from ActiveRecord::RecordNotUnique do
+      render json: { errors: I18n.t('api.errors.not_unique') }, status: :unprocessable_entity
+    end
   end
 end

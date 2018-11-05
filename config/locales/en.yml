@@ -132,3 +132,4 @@ en:
       missing_permissions_to_get_email: 'Missing permissions to obtain email from facebook'
     errors:
       not_found: 'Record not found'
+      not_unique: 'Record is not unique'

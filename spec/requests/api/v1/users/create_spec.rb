@@ -53,7 +53,7 @@ describe 'POST api/v1/users/', type: :request do
 
       it 'returns errors' do
         post user_registration_path, params: blank_params, as: :json
-        expect(json['errors'][0]).to eq(I18n.t('errors.messages.validate_sign_up_params'))
+        expect(json['errors']).to eq(I18n.t('errors.messages.validate_sign_up_params'))
       end
     end
 
