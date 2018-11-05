@@ -1,17 +1,13 @@
 module Api
   module V1
     class UsersController < ApplicationController
-      before_action :authenticate_user!, only: %i[update targets]
+      before_action :authenticate_user!, only: [:update]
 
       def show; end
 
       def update
         user.update!(user_params)
         render partial: 'show', locals: { user: current_user }, status: :ok
-      end
-
-      def targets
-        @targets = current_user.targets
       end
 
       private

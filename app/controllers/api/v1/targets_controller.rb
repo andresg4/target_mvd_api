@@ -5,7 +5,7 @@ module Api
       helper_method :target
 
       def index
-        @targets = Target.all
+        @targets = current_user.targets
       end
 
       def show; end

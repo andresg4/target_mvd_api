@@ -13,8 +13,7 @@ Rails.application.routes.draw do
         post 'users/sign_in/facebook', to: 'sessions#facebook'
       end
       resources :topics, only: [:index]
-      resources :targets, only: %i[index show create destroy]
-      get 'users/me/targets', to: 'users#targets', as: 'user_targets'
+      resources :targets, only: %i[index show create]
       put 'users/me/', to: 'users#update', as: 'user_update'
     end
   end
