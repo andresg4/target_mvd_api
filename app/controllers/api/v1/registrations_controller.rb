@@ -10,7 +10,7 @@ module Api
       end
 
       def render_error(status, message, _data = nil)
-        render json: { errors: [message] }, status: status
+        render json: { errors: message }, status: status
       end
     end
   end

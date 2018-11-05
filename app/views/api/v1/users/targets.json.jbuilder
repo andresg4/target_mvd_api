@@ -5,5 +5,4 @@ json.targets @targets do |target|
   json.latitude   target.latitude
   json.longitude  target.longitude
   json.topic      target.topic
-  json.user       { json.partial! 'api/v1/users/show', user: target.user }
 end
