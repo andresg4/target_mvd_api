@@ -15,6 +15,11 @@ module Api
         render :show
       end
 
+      def destroy
+        target.destroy
+        head :no_content
+      end
+
       private
 
       def target
