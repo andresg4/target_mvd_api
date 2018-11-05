@@ -7,7 +7,7 @@ module Api
 
       def update
         user.update!(user_params)
-        render partial: 'api/v1/users/show', locals: { user: current_user }, status: :ok
+        render partial: 'show', locals: { user: current_user }, status: :ok
       end
 
       def targets
