@@ -23,6 +23,7 @@ FactoryBot.define do
     gender                { Faker::Number.between(0, 1) }
     password              { 'password123' }
     password_confirmation { 'password123' }
+
     transient do
       devices_count { 2 }
     end
