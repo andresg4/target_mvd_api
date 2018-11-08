@@ -21,6 +21,7 @@ gem 'koala', '~> 3.0'
 gem 'dotenv-rails', '~> 2.5'
 gem 'webmock', '~> 3.4', '>= 3.4.2'
 gem 'geokit-rails', '~> 2.3', '>= 2.3.1'
+gem 'fcm', '~> 0.0.6'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

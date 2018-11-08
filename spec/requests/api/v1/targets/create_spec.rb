@@ -2,10 +2,15 @@ require 'rails_helper'
 require 'json'
 
 describe 'POST api/v1/targets', type: :request do
-  let(:params)  { FactoryBot.attributes_for(:target_create) }
-  let(:user)    { create(:user) }
+  let(:params)     { FactoryBot.attributes_for(:target_create) }
+  let(:user)       { create(:user) }
+  let(:user_match) { create(:user_with_devices) }
+  let(:target)     { create(:target_user, user: user_match) }
 
-  before        { user.confirm }
+  before do
+    user.confirm
+    user_match.confirm
+  end
 
   context 'valid request' do
     subject { post api_v1_targets_path, params: params, headers: headers_aux(user), as: :json }
@@ -39,6 +44,32 @@ describe 'POST api/v1/targets', type: :request do
       expect(json['longitude'].to_f).to eq(new_target.longitude.to_f)
       expect(json['topic_id']).to eq(new_target.topic_id)
       expect(json['user_id']).to eq(new_target.user_id)
+      expect(json['match_targets']).to be_empty
+    end
+
+    context 'with matched target' do
+      it 'returns target information with matched target' do
+        params[:target][:latitude] = target.latitude + 0.0001
+        params[:target][:longitude] = target.longitude + 0.0001
+        params[:target][:topic_id] = target.topic_id
+        subject
+        new_target = Target.find_by_title(params[:target][:title])
+        expect(json).not_to be_empty
+        expect(json['id']).to eq(new_target.id)
+        expect(json['title']).to eq(new_target.title)
+        expect(json['radius']).to eq(new_target.radius)
+        expect(json['latitude'].to_f).to eq(new_target.latitude.to_f)
+        expect(json['longitude'].to_f).to eq(new_target.longitude.to_f)
+        expect(json['topic_id']).to eq(new_target.topic_id)
+        expect(json['user_id']).to eq(new_target.user_id)
+        expect(json['match_targets'][0]['id']).to eq(target.id)
+        expect(json['match_targets'][0]['latitude'].to_f).to eq(target.latitude.to_f)
+        expect(json['match_targets'][0]['longitude'].to_f).to eq(target.longitude.to_f)
+        expect(json['match_targets'][0]['radius']).to eq(target.radius)
+        expect(json['match_targets'][0]['title']).to eq(target.title)
+        expect(json['match_targets'][0]['topic_id']).to eq(target.topic_id)
+        expect(json['match_targets'][0]['user_id']).to eq(target.user_id)
+      end
     end
   end
 

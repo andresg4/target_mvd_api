@@ -69,6 +69,18 @@ RSpec.configure do |config|
           'error': 'Not Authorized'
         }.to_json
       )
+
+    stub_request(:post, 'https://fcm.googleapis.com/fcm/send')
+      .with(
+        headers: {
+          'Authorization' => "key=#{ENV['FIREBASE_SERVER_KEY']}",
+          'Content-Type' => 'application/json'
+        }
+      ).to_return(
+        status: 200,
+        body: '',
+        headers: {}
+      )
   end
 
   # rspec-expectations config goes here. You can use an alternate

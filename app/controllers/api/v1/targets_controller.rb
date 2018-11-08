@@ -12,6 +12,10 @@ module Api
 
       def create
         @target = current_user.targets.create!(target_params)
+        @targets = Target.match_targets(@target)
+        devices = @targets.flat_map { |target| target.user.devices }.uniq
+        @devices_id = devices.flat_map(&:device_id).uniq
+        notify unless devices.empty?
         render :show
       end
 
@@ -29,6 +33,10 @@ module Api
       def target_params
         params.require(:target).permit(:topic_id, :title, :radius,
                                        :latitude, :longitude)
+      end
+
+      def notify
+        NotificationService.new(current_user).notify_match(@devices_id)
       end
     end
   end

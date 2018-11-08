@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :targets, dependent: :destroy
+  has_many :devices, dependent: :destroy
 
   enum gender: { male: 0, female: 1 }
 
