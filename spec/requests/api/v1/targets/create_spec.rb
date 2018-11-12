@@ -76,6 +76,19 @@ describe 'POST api/v1/targets', type: :request do
         expect(json['match_targets'][0]['topic_id']).to eq(target.topic_id)
         expect(json['match_targets'][0]['user_id']).to eq(target.user_id)
       end
+
+      context 'creates new conversation' do
+        it 'creates the conversation' do
+          expect { subject }.to change { Conversation.count }.by(1)
+        end
+
+        it 'the conversation is between the two users' do
+          subject
+          conversation = Conversation.last
+          expect(conversation.user_one_id).to eq(user.id)
+          expect(conversation.user_two_id).to eq(user_match.id)
+        end
+      end
     end
   end
 

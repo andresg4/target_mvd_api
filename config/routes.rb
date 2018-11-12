@@ -16,6 +16,10 @@ Rails.application.routes.draw do
       resources :targets, only: %i[index show create destroy]
       put 'users/me/', to: 'users#update', as: 'user_update'
       resources :devices, only: [:create]
+      resources :conversations, only: [:index] do
+        resources :messages, only: [:index]
+      end
+      resources :messages, only: [:create]
     end
   end
 end
