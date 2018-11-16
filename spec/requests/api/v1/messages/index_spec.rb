@@ -45,6 +45,22 @@ describe 'GET api/v1/conversations/:id/messages', type: :request do
           .to match_array((messages_sent_first + messages_received_first).pluck(:id))
       end
     end
+
+    context 'received conversation' do
+      before do
+        get api_v1_conversation_messages_path(conversation_id: conversation_received.id),
+            headers: headers_aux(user), as: :json
+      end
+
+      it 'returns status 200 OK' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns messages' do
+        expect(json['messages'].map { |message| message['id'] })
+          .to match_array((messages_sent_second + messages_received_second).pluck(:id))
+      end
+    end
   end
   include_examples 'invalid headers get', '/api/v1/conversations'
 end

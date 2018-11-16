@@ -8,10 +8,10 @@ class Conversation < ApplicationRecord
 
   validate :conversation_with_self
 
-  def self.create(user_one, user_two)
+  def self.create(user_one_id, user_two_id)
     Conversation.where("(user_one_id = #{user_one} AND user_two_id = #{user_two}) \
     OR (user_one_id = #{user_two} AND user_two_id = #{user_one})")
-                .first_or_create!(user_one_id: user_one, user_two_id: user_two)
+                .first_or_create!(user_one_id: user_one_id, user_two_id: user_two_id)
   end
 
   def messages_not_readed?
