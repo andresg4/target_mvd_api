@@ -173,6 +173,44 @@ describe 'POST api/v1/targets', type: :request do
     end
   end
 
+  context 'radius exceeds allowed limits' do
+    context 'radius is less than minimum allowed' do
+      before do
+        params[:target][:radius] = Target::MIN_RADIUS - 1
+        post api_v1_targets_path, params: params, headers: headers_aux(user), as: :json
+      end
+
+      it 'returns status 422 Unprocessable Entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns error message' do
+        expect(json['errors']['radius'][0])
+          .to eq(I18n
+            .t('activerecord.errors.models.target.attributes.radius.greater_than_or_equal_to',
+               count: Target::MIN_RADIUS))
+      end
+    end
+
+    context 'radius is greater than maximum allowed' do
+      before do
+        params[:target][:radius] = Target::MAX_RADIUS + 1
+        post api_v1_targets_path, params: params, headers: headers_aux(user), as: :json
+      end
+
+      it 'returns status 422 Unprocessable Entity' do
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'returns error message' do
+        expect(json['errors']['radius'][0])
+          .to eq(I18n
+            .t('activerecord.errors.models.target.attributes.radius.less_than_or_equal_to',
+               count: Target::MAX_RADIUS))
+      end
+    end
+  end
+
   include_examples 'invalid headers post', '/api/v1/targets',
                    target: FactoryBot.attributes_for(:target)
 end

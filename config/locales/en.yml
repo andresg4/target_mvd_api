@@ -110,6 +110,9 @@ en:
           attributes:
             user:
               exceeded_quota: 'The limit of targets is 10 per user.'
+            radius:
+              greater_than_or_equal_to: "must be greater than or equal to %{count}"
+              less_than_or_equal_to: "must be less than or equal to %{count}"
       messages:
         invalid: "is invalid"
         taken: "has already been taken"
