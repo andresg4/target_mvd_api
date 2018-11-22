@@ -8,9 +8,9 @@ class Conversation < ApplicationRecord
 
   validate :conversation_with_self
 
-  def self.create(user_one_id, user_two_id)
-    Conversation.where("(user_one_id = #{user_one} AND user_two_id = #{user_two}) \
-    OR (user_one_id = #{user_two} AND user_two_id = #{user_one})")
+  def self.create_conversation_between(user_one_id, user_two_id)
+    Conversation.where("(user_one_id = #{user_one_id} AND user_two_id = #{user_two_id}) \
+    OR (user_one_id = #{user_two_id} AND user_two_id = #{user_one_id})")
                 .first_or_create!(user_one_id: user_one_id, user_two_id: user_two_id)
   end
 

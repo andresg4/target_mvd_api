@@ -14,7 +14,7 @@ class RoomChannel < ApplicationCable::Channel
     )
   end
 
-  # Helpers
+  private
 
   def conversation
     Conversation.find_by_id(params[:room_id])

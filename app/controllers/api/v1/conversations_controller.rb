@@ -4,7 +4,7 @@ module Api
       before_action :authenticate_user!
 
       def index
-        @conversations = current_user.sent_conversations + current_user.received_conversations
+        @conversations = current_user.conversations
       end
     end
   end

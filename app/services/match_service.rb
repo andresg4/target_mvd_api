@@ -6,7 +6,7 @@ class MatchService
 
   def create_conversations
     @targets.each do |target|
-      Conversation.create!(user_one_id: @user.id, user_two_id: target.user.id)
+      Conversation.create_conversation_between(@user.id, target.user.id)
     end
   end
 end

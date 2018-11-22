@@ -9,10 +9,9 @@ class User < ActiveRecord::Base
 
   has_many :targets, dependent: :destroy
   has_many :devices, dependent: :destroy
-  has_many :sent_conversations, class_name: 'Conversation', foreign_key: 'user_one',
-                                dependent: :destroy
-  has_many :received_conversations, class_name: 'Conversation', foreign_key: 'user_two',
-                                    dependent: :destroy
+  has_many :conversations, lambda { |user|
+    unscope(where: :user_id).where(user_one_id: user.id).or(where(user_two_id: user.id))
+  }
 
   enum gender: { male: 0, female: 1 }
 
