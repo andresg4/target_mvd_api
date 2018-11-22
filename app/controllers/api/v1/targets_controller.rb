@@ -13,8 +13,9 @@ module Api
       def create
         @target = current_user.targets.create!(target_params)
         @matched_targets = @target.match_targets
+        create_conversations_match unless @matched_targets.empty?
         devices_id = @matched_targets.flat_map { |target| target.user.devices.pluck(:id) }.uniq
-        notify(devices_id) unless devices_id.empty?
+        notify(devices_id)
         render :show
       end
 
@@ -35,7 +36,11 @@ module Api
       end
 
       def notify(devices_id)
-        NotificationService.new(current_user).notify_match(devices_id)
+        NotificationService.new(current_user).notify_match(devices_id) unless devices_id.empty?
+      end
+
+      def create_conversations_match
+        MatchService.new(current_user, @matched_targets).create_conversations
       end
     end
   end

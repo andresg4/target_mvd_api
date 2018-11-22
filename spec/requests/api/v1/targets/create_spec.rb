@@ -2,11 +2,19 @@ require 'rails_helper'
 require 'json'
 
 describe 'POST api/v1/targets', type: :request do
-  let(:params)     { FactoryBot.attributes_for(:target_create) }
+  let(:params) do
+    { target: FactoryBot.attributes_for(:target, user_id: user.id, topic_id: topic.id) }
+  end
+
   let(:user)       { create(:user) }
   let(:user_match) { create(:user_with_devices) }
-  let(:target)     { create(:target_user, user: user_match) }
-  let(:params_match) { params }
+  let(:topic)      { create(:topic) }
+
+  let(:target) do
+    create(:target, user: user_match, latitude: params[:target][:latitude] + 0.0001,
+                    longitude: params[:target][:longitude] + 0.0001,
+                    topic_id: params[:target][:topic_id])
+  end
 
   before do
     user.confirm
@@ -14,7 +22,10 @@ describe 'POST api/v1/targets', type: :request do
   end
 
   context 'valid request' do
-    subject { post api_v1_targets_path, params: params, headers: headers_aux(user), as: :json }
+    subject do
+      post api_v1_targets_path, params: params,
+                                headers: headers_aux(user), as: :json
+    end
 
     it 'returns status 200 OK' do
       subject
@@ -37,7 +48,6 @@ describe 'POST api/v1/targets', type: :request do
     it 'returns target information' do
       subject
       new_target = Target.find_by_title(params[:target][:title])
-      expect(json).not_to be_empty
       expect(json['id']).to eq(new_target.id)
       expect(json['title']).to eq(new_target.title)
       expect(json['radius']).to eq(new_target.radius)
@@ -50,14 +60,12 @@ describe 'POST api/v1/targets', type: :request do
 
     context 'with matched target' do
       before do
-        params_match[:target][:latitude] = target.latitude + 0.0001
-        params_match[:target][:longitude] = target.longitude + 0.0001
-        params_match[:target][:topic_id] = target.topic_id
-        post api_v1_targets_path, params: params_match, headers: headers_aux(user), as: :json
+        target.save!
       end
 
       it 'returns target information' do
-        new_target = Target.find_by_title(params_match[:target][:title])
+        subject
+        new_target = Target.find_by_title(params[:target][:title])
         expect(json['id']).to eq(new_target.id)
         expect(json['title']).to eq(new_target.title)
         expect(json['radius']).to eq(new_target.radius)
@@ -68,6 +76,7 @@ describe 'POST api/v1/targets', type: :request do
       end
 
       it 'returns matched target information' do
+        subject
         expect(json['match_targets'][0]['id']).to eq(target.id)
         expect(json['match_targets'][0]['latitude'].to_f).to eq(target.latitude.to_f)
         expect(json['match_targets'][0]['longitude'].to_f).to eq(target.longitude.to_f)
@@ -75,6 +84,19 @@ describe 'POST api/v1/targets', type: :request do
         expect(json['match_targets'][0]['title']).to eq(target.title)
         expect(json['match_targets'][0]['topic_id']).to eq(target.topic_id)
         expect(json['match_targets'][0]['user_id']).to eq(target.user_id)
+      end
+
+      context 'creates new conversation' do
+        it 'creates the conversation' do
+          expect { subject }.to change { Conversation.count }.by(1)
+        end
+
+        it 'the conversation is between the two users' do
+          subject
+          conversation = Conversation.last
+          expect(conversation.user_one_id).to eq(user.id)
+          expect(conversation.user_two_id).to eq(user_match.id)
+        end
       end
     end
   end
@@ -152,5 +174,5 @@ describe 'POST api/v1/targets', type: :request do
   end
 
   include_examples 'invalid headers post', '/api/v1/targets',
-                   FactoryBot.attributes_for(:target_create)
+                   target: FactoryBot.attributes_for(:target)
 end

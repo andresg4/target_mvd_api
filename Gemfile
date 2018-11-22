@@ -54,9 +54,11 @@ group :development do
 end
 
 group :test do
-  gem 'faker', '~> 1.9', '>= 1.9.1'
+  # gem 'faker', '~> 1.9', '>= 1.9.1'
   gem 'shoulda-matchers', '~> 4.0.0.rc1'
   gem 'database_cleaner', '~> 1.7'
+  gem 'action-cable-testing', '~> 0.3.3'
+  gem 'faker', '~> 1.9', '>= 1.9.1'
 end
 
 
