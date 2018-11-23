@@ -6,7 +6,7 @@ describe 'POST api/v1/targets', type: :request do
     { target: FactoryBot.attributes_for(:target, user_id: user.id, topic_id: topic.id) }
   end
 
-  let(:user)       { create(:user) }
+  let(:user)       { create(:user_with_devices) }
   let(:user_match) { create(:user_with_devices) }
   let(:topic)      { create(:topic) }
 
@@ -97,6 +97,13 @@ describe 'POST api/v1/targets', type: :request do
           expect(conversation.user_one_id).to eq(user.id)
           expect(conversation.user_two_id).to eq(user_match.id)
         end
+      end
+
+      it 'enqueue notification job' do
+        ActiveJob::Base.queue_adapter = :test
+        expect {
+          subject
+        }.to have_enqueued_job
       end
     end
   end

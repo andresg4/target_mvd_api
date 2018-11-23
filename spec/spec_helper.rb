@@ -81,6 +81,22 @@ RSpec.configure do |config|
         body: '',
         headers: {}
       )
+
+    # stub_request(:post, 'https://fcm.googleapis.com/fcm/send').
+    #   with(
+    #     body: {
+    #       'registration_ids': '*',
+    #       'notification': {
+    #         'title': '*',
+    #         'body': '*',
+    #         'user': '*'
+    #       }
+    #     },
+    #     headers: {
+    #       'Authorization' => 'key=AIzaSyBbIMjSXuhk468SBZ7XKqLkzcqxNjbpZEE',
+    #       'Content-Type' => 'application/json'
+    #     }
+    #   ).to_return(status: 200, body: '', headers: {})
   end
 
   # rspec-expectations config goes here. You can use an alternate
