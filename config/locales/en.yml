@@ -133,3 +133,8 @@ en:
     errors:
       not_found: 'Record not found'
       not_unique: 'Record is not unique'
+    messages:
+      new_match: 'You have a new match'
+      new_message: 'You have a new message'
+      create:
+        invalid_user: 'The user must be part of the conversation.'

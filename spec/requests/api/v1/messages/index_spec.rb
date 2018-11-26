@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe 'GET api/v1/conversations/:id/messages', type: :request do
-  let(:user)                      { create(:user) }
-  let(:user_match)                { create(:user) }
+  let(:user)                      { create(:user_with_devices) }
+  let(:user_match)                { create(:user_with_devices) }
   let!(:conversation_sent) do
     FactoryBot.create(:conversation, user_one: user, user_two: user_match)
   end
