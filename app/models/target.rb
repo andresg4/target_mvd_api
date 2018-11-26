@@ -1,10 +1,11 @@
 class Target < ApplicationRecord
   LIMIT_TARGETS = 10
-  MAX_RADIUS    = 100
+  MAX_RADIUS    = 1000
+  MIN_RADIUS    = 20
 
   belongs_to :topic
   belongs_to :user
-  acts_as_mappable default_units: :kms,
+  acts_as_mappable default_units: :meters,
                    lat_column_name: :latitude,
                    lng_column_name: :longitude
 
@@ -12,7 +13,7 @@ class Target < ApplicationRecord
   validates :title, length: { maximum: 20 }
   validates :title, uniqueness: true
 
-  validates :radius, numericality: { greater_than_or_equal_to: 0 }
+  validates :radius, numericality: { greater_than_or_equal_to: MIN_RADIUS }
   validates :radius, numericality: { less_than_or_equal_to: MAX_RADIUS }
 
   validate :validate_user_limit, on: :create
