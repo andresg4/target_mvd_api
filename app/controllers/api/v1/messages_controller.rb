@@ -1,6 +1,6 @@
 module Api
   module V1
-    class MessagesController < ApplicationController
+    class MessagesController < Api::V1::ApiController
       before_action :authenticate_user!
       before_action :conversation, only: [:index]
 

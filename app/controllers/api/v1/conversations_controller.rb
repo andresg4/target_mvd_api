@@ -1,6 +1,6 @@
 module Api
   module V1
-    class ConversationsController < ApplicationController
+    class ConversationsController < Api::V1::ApiController
       before_action :authenticate_user!
 
       def index

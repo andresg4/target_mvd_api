@@ -10,3 +10,4 @@ topics_list = %w[Football Travel Politics Art Dating Music Movies Series Food]
 topics_list.each do |name|
   Topic.create(name: name)
 end
+AdminUser.create!(email: 'admin@example.com', password: 'password', password_confirmation: 'password') if Rails.env.development?
