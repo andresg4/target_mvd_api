@@ -3,13 +3,14 @@ class NotificationService
     @user = user
   end
 
-  def notify_match(devices)
+  def notify_user(devices, title, message)
     fcm = FCM.new(ENV['FIREBASE_SERVER_KEY'])
     options =
       {
         'notification':
         {
-          'title': 'You have a new match',
+          'title': title,
+          'body': message,
           'user': @user.id
         }
       }
