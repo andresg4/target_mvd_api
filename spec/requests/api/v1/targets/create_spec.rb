@@ -68,9 +68,6 @@ describe 'POST api/v1/targets', type: :request do
     context 'same title but from other user' do
       before do
         params[:target][:title] = target_same_title.title
-        # post api_v1_targets_path, params: params,
-        #                           headers: headers_aux(user), as: :json
-        # byebug
       end
 
       it 'returns status 200 OK' do
