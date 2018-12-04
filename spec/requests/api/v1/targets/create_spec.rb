@@ -17,12 +17,6 @@ describe 'POST api/v1/targets', type: :request do
                     topic_id: params[:target][:topic_id])
   end
 
-  let(:target_same_title) do
-    create(:target, user: user_match, latitude: params[:target][:latitude] + 0.0001,
-                    longitude: params[:target][:longitude] + 0.0001,
-                    topic_id: topic_other_target.id)
-  end
-
   before do
     user.confirm
     user_match.confirm
@@ -66,6 +60,12 @@ describe 'POST api/v1/targets', type: :request do
     end
 
     context 'same title but from other user' do
+      let(:target_same_title) do
+        create(:target, user: user_match, latitude: params[:target][:latitude] + 0.0001,
+                        longitude: params[:target][:longitude] + 0.0001,
+                        topic_id: topic_other_target.id)
+      end
+
       before do
         params[:target][:title] = target_same_title.title
       end
