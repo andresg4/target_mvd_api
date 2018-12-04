@@ -1,6 +1,6 @@
 module Api
   module V1
-    class DevicesController < ApplicationController
+    class DevicesController < Api::V1::ApiController
       def create
         current_user.devices.create!(device_params)
       end

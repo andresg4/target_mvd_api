@@ -1,6 +1,6 @@
 module Api
   module V1
-    class UsersController < ApplicationController
+    class UsersController < Api::V1::ApiController
       before_action :authenticate_user!, only: [:update]
 
       def show; end

@@ -1,6 +1,7 @@
 module Api
   module V1
     class SessionsController < DeviseTokenAuth::SessionsController
+      protect_from_forgery with: :null_session
       rescue_from Koala::Facebook::AuthenticationError, with: :render_error_not_authorized
       rescue_from ActiveRecord::RecordNotUnique, with: :render_error_already_registered
       rescue_from Koala::Facebook::ClientError, with: :render_error_not_authorized

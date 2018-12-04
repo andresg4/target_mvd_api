@@ -1,6 +1,6 @@
 module Api
   module V1
-    class TargetsController < ApplicationController
+    class TargetsController < Api::V1::ApiController
       before_action :authenticate_user!
       helper_method :target
 
