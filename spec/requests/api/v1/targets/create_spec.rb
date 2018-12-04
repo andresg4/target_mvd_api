@@ -6,14 +6,21 @@ describe 'POST api/v1/targets', type: :request do
     { target: FactoryBot.attributes_for(:target, user_id: user.id, topic_id: topic.id) }
   end
 
-  let(:user)       { create(:user_with_devices) }
-  let(:user_match) { create(:user_with_devices) }
-  let(:topic)      { create(:topic) }
+  let(:user)               { create(:user_with_devices) }
+  let(:user_match)         { create(:user_with_devices) }
+  let(:topic)              { create(:topic) }
+  let(:topic_other_target) { create(:topic) }
 
   let(:target) do
     create(:target, user: user_match, latitude: params[:target][:latitude] + 0.0001,
                     longitude: params[:target][:longitude] + 0.0001,
                     topic_id: params[:target][:topic_id])
+  end
+
+  let(:target_same_title) do
+    create(:target, user: user_match, latitude: params[:target][:latitude] + 0.0001,
+                    longitude: params[:target][:longitude] + 0.0001,
+                    topic_id: topic_other_target.id)
   end
 
   before do
@@ -33,12 +40,12 @@ describe 'POST api/v1/targets', type: :request do
     end
 
     it 'creates the target' do
-      expect { subject }.to change { Target.count }.by(1)
+      expect { subject }.to change { user.targets.count }.by(1)
     end
 
     it 'saves the target correctly' do
       subject
-      new_target = Target.find_by_title(params[:target][:title])
+      new_target = user.targets.find_by_title(params[:target][:title])
       expect(new_target.radius).to eq(params[:target][:radius].to_f)
       expect(new_target.latitude.to_f).to eq(params[:target][:latitude].round(6))
       expect(new_target.longitude.to_f).to eq(params[:target][:longitude].round(6))
@@ -47,7 +54,7 @@ describe 'POST api/v1/targets', type: :request do
 
     it 'returns target information' do
       subject
-      new_target = Target.find_by_title(params[:target][:title])
+      new_target = user.targets.find_by_title(params[:target][:title])
       expect(json['id']).to eq(new_target.id)
       expect(json['title']).to eq(new_target.title)
       expect(json['radius']).to eq(new_target.radius)
@@ -58,6 +65,46 @@ describe 'POST api/v1/targets', type: :request do
       expect(json['match_targets']).to be_empty
     end
 
+    context 'same title but from other user' do
+      before do
+        params[:target][:title] = target_same_title.title
+        # post api_v1_targets_path, params: params,
+        #                           headers: headers_aux(user), as: :json
+        # byebug
+      end
+
+      it 'returns status 200 OK' do
+        subject
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'creates the target' do
+        expect { subject }.to change { user.targets.count }.by(1)
+      end
+
+      it 'saves the target correctly' do
+        subject
+        new_target = user.targets.find_by_title(params[:target][:title])
+        expect(new_target.radius).to eq(params[:target][:radius].to_f)
+        expect(new_target.latitude.to_f).to eq(params[:target][:latitude].round(6))
+        expect(new_target.longitude.to_f).to eq(params[:target][:longitude].round(6))
+        expect(new_target.topic_id).to eq(params[:target][:topic_id])
+      end
+
+      it 'returns target information' do
+        subject
+        new_target = user.targets.find_by_title(params[:target][:title])
+        expect(json['id']).to eq(new_target.id)
+        expect(json['title']).to eq(new_target.title)
+        expect(json['radius']).to eq(new_target.radius)
+        expect(json['latitude'].to_f).to eq(new_target.latitude.to_f)
+        expect(json['longitude'].to_f).to eq(new_target.longitude.to_f)
+        expect(json['topic_id']).to eq(new_target.topic_id)
+        expect(json['user_id']).to eq(new_target.user_id)
+        expect(json['match_targets']).to be_empty
+      end
+    end
+
     context 'with matched target' do
       before do
         target.save!
@@ -65,7 +112,7 @@ describe 'POST api/v1/targets', type: :request do
 
       it 'returns target information' do
         subject
-        new_target = Target.find_by_title(params[:target][:title])
+        new_target = user.targets.find_by_title(params[:target][:title])
         expect(json['id']).to eq(new_target.id)
         expect(json['title']).to eq(new_target.title)
         expect(json['radius']).to eq(new_target.radius)
@@ -109,7 +156,7 @@ describe 'POST api/v1/targets', type: :request do
   end
 
   context 'invalid request' do
-    context 'exists target with same title' do
+    context 'exists a user target with same title' do
       before do
         post api_v1_targets_path, params: params, headers: headers_aux(user), as: :json
         post api_v1_targets_path, params: params, headers: headers_aux(user), as: :json
