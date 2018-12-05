@@ -11,7 +11,7 @@ class Target < ApplicationRecord
 
   validates :title, :radius, :latitude, :longitude, presence: true
   validates :title, length: { maximum: 20 }
-  validates :title, uniqueness: true
+  validates :title, uniqueness: { scope: :user_id }
 
   validates :radius, numericality: { greater_than_or_equal_to: MIN_RADIUS }
   validates :radius, numericality: { less_than_or_equal_to: MAX_RADIUS }
