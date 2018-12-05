@@ -6,9 +6,9 @@ describe Target, type: :model do
   describe 'attributes' do
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_length_of(:title) }
-    it {
+    it do
       is_expected.to validate_uniqueness_of(:title).scoped_to(:user_id).ignoring_case_sensitivity
-    }
+    end
 
     it { is_expected.to validate_presence_of(:radius) }
     it { is_expected.to validate_presence_of(:latitude) }
